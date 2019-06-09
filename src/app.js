@@ -6,6 +6,11 @@ const request = require('request');
 require('dotenv').config();
 
 const { token } = process.env;
+if (!token) {
+    console.log('error token');
+    return
+};
+
 
 const bot = new TelegramBot(token, { polling: true });
 
@@ -47,7 +52,7 @@ bot.on('callback_query', query => {
         'https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5',
         (error, responss, body) => {
             const data = JSON.parse(body);
-            console.log(body);
+
             console.log(error);
             console.log(responss);
 
