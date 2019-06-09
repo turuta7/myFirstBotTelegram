@@ -2,7 +2,6 @@ const TelegramBot = require('node-telegram-bot-api');
 
 const request = require('request');
 
-// eslint-disable-next-line import/no-extraneous-dependencies
 require('dotenv').config();
 
 const { token } = process.env;
