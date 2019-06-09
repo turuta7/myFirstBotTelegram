@@ -8,6 +8,9 @@
     "lint:js": "eslint ./src",
     "lint-staged": "lint-staged"
   },
+  "engines": {
+    "node": "11.0.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/turuta7/myFirstBotTelegram.git"
