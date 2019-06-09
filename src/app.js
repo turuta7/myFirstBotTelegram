@@ -1,19 +1,14 @@
 const TelegramBot = require('node-telegram-bot-api');
-
 const request = require('request');
-
 require('dotenv').config();
-
 const { token } = process.env;
 if (!token) {
     console.log('error token');
-    return
+    return;
 };
-
 
 const bot = new TelegramBot(token, { polling: true });
 try {
-
     // eslint-disable-next-line no-unused-vars
     bot.onText(/\/course/, msg => {
         const chatId = msg.chat.id;
