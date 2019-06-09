@@ -42,10 +42,15 @@ bot.onText(/\/course/, msg => {
 
 bot.on('callback_query', query => {
   const { id } = query.message.chat;
+  console.log(id);
   request(
     'https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5',
-    (erroe, responss, body) => {
+    (error, responss, body) => {
       const data = JSON.parse(body);
+      console.log(body);
+      console.log(error);
+      console.log(responss);
+
       const result = data.filter(x => x.ccy === query.data)[0];
 
       const md = `
@@ -53,6 +58,7 @@ bot.on('callback_query', query => {
         Покупка: ${result.buy}
         Продажа: ${result.sale}
         `;
+      console.log(md);
       bot.sendMessage(id, md, { parse_mode: 'Markdown' });
     },
   );
