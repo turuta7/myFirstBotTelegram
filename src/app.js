@@ -19,9 +19,21 @@ app.get('/', function (req, res) {
     res.send('Hello World')
 })
 
-
+let notes = [];
 const bot = new TelegramBot(token, { polling: true });
+
 try {
+    bot.onText(/напомни (.+) в (.+)/i, function (msg, match) {
+        let userId1 = msg.from.id;
+        let text1 = match[1];
+        let time = match[2];
+        notes.push({ 'uid': userId1, 'time': time, 'text': text1 });
+        bot.sendMessage(userId1, 'Отлично! Я обязательно напомню, если не сдохну :)');
+        console.log(notes);
+    });
+
+
+
     // eslint-disable-next-line no-unused-vars
     bot.onText(/\/course/, msg => {
         const chatId = msg.chat.id;
@@ -29,7 +41,7 @@ try {
         const resp = 'Выберите валюту:';
         bot.sendMessage(chatId, resp, {
             reply_markup: {
-                remove_keyboard: true,
+
                 inline_keyboard: [
                     [
                         {
@@ -59,7 +71,7 @@ try {
         const resp = 'Погода:';
         bot.sendMessage(chatId, resp, {
             reply_markup: {
-                remove_keyboard: true,
+
                 inline_keyboard: [
                     [
                         {
@@ -78,6 +90,8 @@ try {
 
 
     bot.on('callback_query', query => {
+        console.log(query.data);
+
         const { id } = query.message.chat;
         if (query.data === 'cherkasy' || query.data === 'kiev') {
             const { apiKey } = process.env;
@@ -98,7 +112,8 @@ try {
                     bot.sendMessage(id, response1, { parse_mode: 'Markdown' });
                 }
             })
-        } else {
+        };
+        if (query.data === 'USD' || query.data === 'EUR' || query.data === 'RUR' || query.data === 'BTC') {
             console.log(id);
             request(
                 'https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5',
@@ -124,6 +139,19 @@ try {
     console.log(error);
 }
 
+console.log(notes);
+setInterval(function () {
+    for (var i = 0; i < notes.length; i++) {
+        var curDate = new Date().getHours() + ':' + new Date().getMinutes();
+
+
+
+        if (notes[i]['time'] === curDate) {
+            bot.sendMessage(notes[i]['uid'], 'Напоминаю, что вы должны: ' + notes[i]['text'] + ' сейчас.');
+            notes.splice(i, 1);
+        }
+    }
+}, 1000);
 
 
 setInterval(function () {
