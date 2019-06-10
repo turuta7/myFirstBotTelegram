@@ -7,14 +7,13 @@ const { argv } = require('yargs')
 
 const app = express();
 
-
-
 require('dotenv').config();
 const { token } = process.env;
-// if (!token) {
-//     console.log('error token');
-//     return;
-// };
+
+if (!token) {
+    console.log('error token');
+    return;
+};
 
 app.get('/', function (req, res) {
     res.send('Hello World')
@@ -30,6 +29,7 @@ try {
         const resp = 'Выберите валюту:';
         bot.sendMessage(chatId, resp, {
             reply_markup: {
+                remove_keyboard: true,
                 inline_keyboard: [
                     [
                         {
@@ -50,7 +50,7 @@ try {
                         },
                     ],
                 ],
-            },
+            }
         });
     });
 
@@ -59,6 +59,7 @@ try {
         const resp = 'Погода:';
         bot.sendMessage(chatId, resp, {
             reply_markup: {
+                remove_keyboard: true,
                 inline_keyboard: [
                     [
                         {
@@ -71,7 +72,7 @@ try {
                         },
                     ],
                 ],
-            },
+            }
         });
     });
 
@@ -80,6 +81,7 @@ try {
         const { id } = query.message.chat;
         if (query.data === 'cherkasy' || query.data === 'kiev') {
             const { apiKey } = process.env;
+
             const city = argv.c || query.data
             const units = 'metric'
             const url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=${units}`
@@ -91,10 +93,8 @@ try {
                 } else {
                     const weather = JSON.parse(body)
                     const response1 = `*Сейчас: ${weather.main.temp} градусов в ${weather.name}*
-                      \n Максимальная темперетура: ${weather.main.temp_max} 
-                      \n Минимальная темперетура: ${weather.main.temp_min}
-                      Влажность: ${weather.main.humidity} %
-                      Облачность: ${weather.clouds} %`
+                    Влажность: ${weather.main.humidity} %
+                    Облачность: ${weather.clouds.all} %`
                     bot.sendMessage(id, response1, { parse_mode: 'Markdown' });
                 }
             })
@@ -128,7 +128,7 @@ try {
 
 setInterval(function () {
     https.get("https://myfirst-telegrambot.herokuapp.com/");
-}, 300000); // every 5 minutes (300000)
+}, 900000); // every 5 minutes (300000)
 
 
 app.listen(process.env.PORT || 3000)
