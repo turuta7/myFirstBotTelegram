@@ -5,9 +5,6 @@ const express = require('express');
 const app = express();
 
 
-app.get('/', function (req, res) {
-    res.send('Hello World')
-})
 
 require('dotenv').config();
 const { token } = process.env;
@@ -15,6 +12,11 @@ const { token } = process.env;
 //     console.log('error token');
 //     return;
 // };
+
+app.get('/', function (req, res) {
+    res.send('Hello World')
+})
+
 
 const bot = new TelegramBot(token, { polling: true });
 try {
@@ -79,10 +81,12 @@ setInterval(function () {
 }, 300000); // every 5 minutes (300000)
 
 
-require('https').createServer().listen(process.env.PORT || 5000)
-    .on('request', function (req, res) {
-        res.end()
-    });
+app.listen(process.env.PORT || 3000)
+
+// require('https').createServer().listen(process.env.PORT || 5000)
+//     .on('request', function (req, res) {
+//         res.end()
+//     });
 
 // "prettier --write",
 // "eslint --fix --max-warnings 0",
