@@ -75,9 +75,9 @@ try {
     console.log(error);
 }
 
-const http = require("http");
+const https = require("https");
 setInterval(function () {
-    http.get("https://myfirst-telegrambot.herokuapp.com/");
+    https.get("https://myfirst-telegrambot.herokuapp.com/");
 }, 300000); // every 5 minutes (300000)
 
 
