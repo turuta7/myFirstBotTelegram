@@ -2,10 +2,10 @@ const TelegramBot = require('node-telegram-bot-api');
 const request = require('request');
 require('dotenv').config();
 const { token } = process.env;
-if (!token) {
-    console.log('error token');
-    return;
-};
+// if (!token) {
+//     console.log('error token');
+//     return;
+// };
 
 const bot = new TelegramBot(token, { polling: true });
 try {
@@ -64,6 +64,9 @@ try {
     console.log(error);
 }
 require('https').createServer().listen(process.env.PORT || 5000).on('request', function (req, res) { res.end() });
+setTimeout(() => {
+    console.log('test');
+}, 1000);
 // "prettier --write",
 // "eslint --fix --max-warnings 0",
 // "git add"
