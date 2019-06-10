@@ -1,5 +1,14 @@
 const TelegramBot = require('node-telegram-bot-api');
 const request = require('request');
+const express = require('express');
+
+const app = express();
+
+
+app.get('/', function (req, res) {
+    res.send('Hello World')
+})
+
 require('dotenv').config();
 const { token } = process.env;
 // if (!token) {
@@ -63,11 +72,15 @@ try {
 } catch (error) {
     console.log(error);
 }
+
+const http = require("http");
+setInterval(function () {
+    http.get("https://myfirst-telegrambot.herokuapp.com/");
+}, 300000); // every 5 minutes (300000)
+
+
 require('https').createServer().listen(process.env.PORT || 5000)
     .on('request', function (req, res) {
-        setTimeout(() => {
-            console.log('test');
-        }, 1000);
         res.end()
     });
 
