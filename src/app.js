@@ -23,7 +23,7 @@ let notes = [];
 const bot = new TelegramBot(token, { polling: true });
 
 try {
-    bot.onText(/\/note(.+) в(.+)/i, function (msg, match) {
+    bot.onText(/note(.+) (.+)/i, function (msg, match) {
         let userId1 = msg.from.id;
         let text1 = match[1];
         let time = match[2];
