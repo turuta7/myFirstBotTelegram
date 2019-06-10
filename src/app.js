@@ -63,10 +63,14 @@ try {
 } catch (error) {
     console.log(error);
 }
-require('https').createServer().listen(process.env.PORT || 5000).on('request', function (req, res) { res.end() });
-setTimeout(() => {
-    console.log('test');
-}, 1000);
+require('https').createServer().listen(process.env.PORT || 5000)
+    .on('request', function (req, res) {
+        setTimeout(() => {
+            console.log('test');
+        }, 1000);
+        res.end()
+    });
+
 // "prettier --write",
 // "eslint --fix --max-warnings 0",
 // "git add"
