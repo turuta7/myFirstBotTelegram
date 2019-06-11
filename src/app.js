@@ -16,13 +16,28 @@ if (!token) {
 };
 
 app.get('/', function (req, res) {
-    res.send('Hello World')
+    res.send('server Work')
 })
 
 let notes = [];
 const bot = new TelegramBot(token, { polling: true });
 
 try {
+
+    bot.onText(/\/start/, (msg) => {
+
+        bot.sendMessage(msg.chat.id, `Добрый день, ${msg.chat.first_name}. Добро пожаловать!`, {
+            // reply_markup: JSON.stringify({
+            //     inline_keyboard: [
+            //         [{ text: 'Кнопка 1', callback_data: 'data 1' }],
+            //         [{ text: 'Кнопка 2', callback_data: 'data 2' }],
+            //         [{ text: 'Кнопка 3', callback_data: 'data 3' }]
+            //     ]
+            // })
+        });
+
+    })
+
     bot.onText(/note(.+) (.+)/i, function (msg, match) {
         let userId1 = msg.from.id;
         let text1 = match[1];
@@ -33,7 +48,6 @@ try {
     });
 
 
-
     // eslint-disable-next-line no-unused-vars
     bot.onText(/\/course/, msg => {
         const chatId = msg.chat.id;
@@ -41,7 +55,7 @@ try {
         const resp = 'Выберите валюту:';
         bot.sendMessage(chatId, resp, {
             reply_markup: {
-
+                remove_keyboard: true,
                 inline_keyboard: [
                     [
                         {
@@ -71,7 +85,7 @@ try {
         const resp = 'Погода:';
         bot.sendMessage(chatId, resp, {
             reply_markup: {
-
+                remove_keyboard: true,
                 inline_keyboard: [
                     [
                         {
@@ -89,13 +103,14 @@ try {
     });
 
 
-    bot.on('callback_query', query => {
-        console.log(query.data);
+    bot.on('callback_query', (query) => {
 
         const { id } = query.message.chat;
+        //-------------------------------------------------------------------
+        // weather
+        //--------------------------------------------------------------------
         if (query.data === 'cherkasy' || query.data === 'kiev') {
             const { apiKey } = process.env;
-
             const city = argv.c || query.data
             const units = 'metric'
             const url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=${units}`
@@ -113,6 +128,9 @@ try {
                 }
             })
         };
+        //-------------------------------------------------------------------
+        // 
+        //--------------------------------------------------------------------
         if (query.data === 'USD' || query.data === 'EUR' || query.data === 'RUR' || query.data === 'BTC') {
             console.log(id);
             request(
@@ -126,7 +144,6 @@ try {
             Покупка: ${result.buy}
             Продажа: ${result.sale}
             `;
-
                     bot.sendMessage(id, md, { parse_mode: 'Markdown' });
                 },
             );
