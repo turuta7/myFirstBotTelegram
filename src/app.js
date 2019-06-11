@@ -156,7 +156,7 @@ setInterval(function () {
 
 setInterval(function () {
     https.get("https://myfirst-telegrambot.herokuapp.com/");
-}, 900000); // every 5 minutes (300000)
+}, 300000); // every 5 minutes (300000)
 
 
 app.listen(process.env.PORT || 3000)
