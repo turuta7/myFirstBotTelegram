@@ -45,7 +45,7 @@ try {
         notes.push({ 'uid': userId1, 'time': time, 'text': text1 });
         bot.sendMessage(userId1, 'Отлично! Я обязательно напомню, если не сдохну :)');
         console.log(notes);
-    });
+    }); git
 
 
     // eslint-disable-next-line no-unused-vars
@@ -160,6 +160,7 @@ console.log(notes);
 setInterval(function () {
     for (var i = 0; i < notes.length; i++) {
         var curDate = new Date().getHours() + ':' + new Date().getMinutes();
+        console.log(curDate);
 
 
 
